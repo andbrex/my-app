@@ -36,15 +36,14 @@ async function create(req, res, next) {
       sql: 'SELECT * FROM constellations WHERE name = ?'
     }, constellation.toUpperCase());
     const {id} = rows[0];
-    await res.forEach(async star => {
+    await Promise.all(res.map(async star => {
       const {name, right_ascension, declination} = star;
-      console.log(`${id}, ${name}, ${right_ascension}, ${declination}`);
-      await conn.query({
+      return await conn.query({
         sql: 'INSERT IGNORE INTO stars \
         (constellation, name, right_ascension, declination) \
         VALUES (?, ?, ?, ?)'
       }, [id, name, right_ascension, declination]);
-    });
+    }));
     conn.end();
   });
   res.status(200).send();
