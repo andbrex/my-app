@@ -28,18 +28,27 @@ async function create(req, res, next) {
     }, constellation.toUpperCase());
 
     const {id} = rows[0];
+<<<<<<< HEAD
 
     await res.forEach(async star => {
       const {name, right_ascension, declination} = star;
       console.log(`${id}, ${name}, ${right_ascension}, ${declination}`);
 
+=======
+    await res.forEach(async star => {
+      const {name, right_ascension, declination} = star;
+      console.log(`${id}, ${name}, ${right_ascension}, ${declination}`);
+>>>>>>> parent of 194b64a... fix: insert bug
       await conn.query({
         sql: 'INSERT IGNORE INTO stars \
         (constellation, name, right_ascension, declination) \
         VALUES (?, ?, ?, ?)'
       }, [id, name, right_ascension, declination]);
     });
+<<<<<<< HEAD
     
+=======
+>>>>>>> parent of 194b64a... fix: insert bug
     conn.end();
   });
   res.status(200).send();
